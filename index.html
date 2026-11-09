@@ -3,7 +3,8 @@
 
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <meta name="theme-color" content="#e4eafe">
     <meta name="color-scheme" content="light">
     <title>Abbreviation Search</title>
     <style>
@@ -45,7 +46,11 @@
         body::before {
             content: "";
             position: fixed;
-            inset: 0;
+            top: calc(-1 * env(safe-area-inset-top, 0px));
+            left: 0;
+            right: 0;
+            height: 100vh;
+            height: calc(100lvh + env(safe-area-inset-top, 0px) + env(safe-area-inset-bottom, 0px));
             z-index: -1;
             background:
                 radial-gradient(90% 55% at 10% 0%, #d6e6ff 0%, transparent 70%),
@@ -62,7 +67,7 @@
         }
 
         .masthead {
-            padding: 20px 0 6px;
+            padding: calc(20px + env(safe-area-inset-top, 0px)) 0 6px;
         }
 
         .masthead .wrap {
@@ -103,7 +108,7 @@
 
         .searchbar {
             position: sticky;
-            top: 0;
+            top: env(safe-area-inset-top, 0px);
             z-index: 10;
             padding: 10px 0 12px;
             border-bottom: 1px solid transparent;
@@ -116,6 +121,17 @@
             background: color-mix(in srgb, var(--bg) 72%, transparent);
             -webkit-backdrop-filter: blur(14px) saturate(160%);
             backdrop-filter: blur(14px) saturate(160%);
+        }
+
+        /* Covers the gap above the pinned bar so results don't show under the status bar */
+        .searchbar.is-stuck::before {
+            content: "";
+            position: absolute;
+            right: 0;
+            bottom: 100%;
+            left: 0;
+            height: env(safe-area-inset-top, 0px);
+            background: var(--bg);
         }
 
         .search-field {
@@ -304,7 +320,7 @@
         #goToTopBtn {
             position: fixed;
             right: 16px;
-            bottom: 20px;
+            bottom: calc(20px + env(safe-area-inset-bottom, 0px));
             z-index: 20;
             height: 44px;
             padding: 0 16px;
@@ -327,7 +343,7 @@
 
         @media (max-width: 560px) {
             .masthead {
-                padding-top: 16px;
+                padding-top: calc(16px + env(safe-area-inset-top, 0px));
             }
 
             .masthead .wrap {
